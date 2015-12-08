@@ -2,10 +2,10 @@ from flask import Flask, flash, render_template, request, redirect, url_for
 from wtforms import Form, StringField, BooleanField
 import requests
 import pandas as pd
-import re
+import re #reg expressions
 from bokeh.plotting import figure
-from bokeh.palettes import Spectral4
-from bokeh.embed import components
+from bokeh.palettes import Spectral4 #color palette for line plots
+from bokeh.embed import components #to generate embedded html
 
 
 def get_stock_data(stock):
@@ -31,35 +31,37 @@ class UIForm(Form):
     Adj_closing = BooleanField('Adjusted closing price')
     Adj_opening = BooleanField('Adjusted opening price')
 
+
 app = Flask(__name__)
 app.secret_key = '\xb6\xbcr\xc4\xb5\x9cY\x03\xcdI\x15oR:\xdbJD\xb1c\x00+\x1c\x926'
 
-@app.route('/')
+@app.route('/') #redirect to index page
 def main():
   return redirect('/index')
 
+# page where user selects desired stock features to plot
 @app.route('/index',methods=['GET','POST'])
 def index():
     form =  UIForm(request.form)
-    if request.method == 'POST':    
+    if request.method == 'POST':  #if user is posting, get form data and store it  
         app.UIform = form
-        if not form.stock.data:
+        if not form.stock.data: #if the stock string field is empty, redirect to form page
             flash('Need to input a valid tock ticker')
             return redirect('/index')
-        json_data = get_stock_data(app.UIform.data['stock'])    
-        app.json_data = json_data
-        if 'error' in json_data:
+        json_data = get_stock_data(app.UIform.data['stock']) #try getting data from quandl
+        app.json_data = json_data #store json data
+        if 'error' in json_data: #if the request from quandl failed, redirect and flash error
             flash('Need to input a valid tock ticker')
             return redirect('/index')
-        return redirect('/graph')
-    return render_template('index.html',form=form)
+        return redirect('/graph') #otherwise, go to the graph page
+    return render_template('index.html',form=form) #if request method was GET
     
-
+#page for displaying the requested graph
 @app.route('/graph')
 def graph():
     company_name, = re.match(r'(.+) \({}\)'.format(app.UIform.data['stock']),
-                             app.json_data['name']).groups()    
-    df = make_dataframe(app.json_data)
+                             app.json_data['name']).groups() #get company name for plotting
+    df = make_dataframe(app.json_data) #make a pandas dataframe
     name_map = { #maps form field names to names of columns in dataframe
                 'Closing':'Close',
                 'Opening':'Open',
