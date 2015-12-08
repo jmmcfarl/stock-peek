@@ -2,14 +2,26 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Hello, World!</title>
+		<title>USER INPUT</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<div>
-  			<h1>Hello, World!</h1>
+  			<h1>USER INPUT</h1>
 		</div>
+		<p>Please enter a stock ticker eg. GOOG, and check desired features.</p?>		
+		<form action="" method="post" name="UIForm">
+			<p>Ticker symbol: {{ form.stock }}</p>
+			<p>{{ form.Closing }} Closing Price</p>
+			<p>{{ form.Opening }} Opening Price</p>
+			<p>{{ form.Adj_closing }} Adjusted Closing Price</p>
+			<p>{{ form.Adj_opening }} Adjusted Opening Price</p>
+			<p><input type="submit" value="Submit"></p>
+		</form>
+		{% for message in get_flashed_messages()%}
+    		{{ message }}
+  		{% endfor %}
 	</body>
 </html>

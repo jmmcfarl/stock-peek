@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Stock graph</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+		{{ script | safe }}
+	</head>
+	<body>
+		<div class=page>
+  			<h1>
+  				Data from Quandl WIKI <br>
+  				<a href="{{ url_for('index') }}">Back</a>
+  			</h1>
+  			{{ div | safe }}
+		</div>
+	</body>
+</html>
